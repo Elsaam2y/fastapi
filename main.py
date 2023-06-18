@@ -32,7 +32,7 @@ app.add_middleware(
 )
 
 # return the base64 encoded image to be used in the client side 
-@app.get("/")
+@app.post("/")
 async def generate_response_api(prompt: str):
     output = generate_response(prompt)
     if output is None:
