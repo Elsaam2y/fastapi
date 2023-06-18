@@ -23,7 +23,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.post("/generate_response")
+@app.get("/")
 async def generate_response_api(request: Request):
     prompt = await request.json()
     prompt_text = prompt.get("prompt")
