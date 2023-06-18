@@ -1,15 +1,10 @@
-from fastapi import FastAPI, Response
+from fastapi import FastAPI, Response, Request
+from fastapi.middleware.cors import CORSMiddleware
 import replicate
 import requests
-from mangum import Mangum
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
-import tempfile
-from typing import Union
-from io import BytesIO
-import os
 from dotenv import load_dotenv
-import base64 
+import base64
+import os
 
 # Specify the path to the .env file
 dotenv_path = ".env"
@@ -19,10 +14,7 @@ load_dotenv(dotenv_path)
 # Load your API key from an environment variable or secret management service
 REPLICATE_API_TOKEN = os.getenv("REPLICATE_API_TOKEN")
 
-
 app = FastAPI()
-handler = Mangum(app)
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -31,10 +23,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# return the base64 encoded image to be used in the client side 
-@app.post("/")
-async def generate_response_api(prompt: str):
-    output = generate_response(prompt)
+@app.post("/generate_response")
+async def generate_response_api(request: Request):
+    prompt = await request.json()
+    prompt_text = prompt.get("prompt")
+    if prompt_text is None:
+        return Response(content="Failed to generate response. Prompt not provided.", media_type="text/plain")
+
+    output = generate_response(prompt_text)
     if output is None:
         return Response(content="Failed to generate response", media_type="text/plain")
 
