@@ -17,8 +17,10 @@ dotenv_path = ".env"
 # Load environment variables from the specified .env file
 load_dotenv(dotenv_path)
 # Load your API key from an environment variable or secret management service
-REPLICATE_API_TOKEN = os.getenv("REPLICATE_API_TOKEN")
+# REPLICATE_API_TOKEN = os.getenv("REPLICATE_API_TOKEN")
 
+# use environment variabe from railway
+REPLICATE_API_TOKEN = process.env.REPLICATE_API_TOKEN
 
 app = FastAPI()
 handler = Mangum(app)
