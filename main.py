@@ -12,8 +12,7 @@ from dotenv import load_dotenv
 import base64 
 
 # Specify the path to the .env file
-dotenv_path = "/.env"
-
+dotenv_path = ".env"
 
 # Load environment variables from the specified .env file
 load_dotenv(dotenv_path)
