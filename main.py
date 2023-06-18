@@ -31,23 +31,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# display the image on the fastapi server
-# @app.get("/generate_response")
-# async def generate_response_api(prompt: str):
-#     output = generate_response(prompt)
-#     if output is None:
-#         return Response(content="Failed to generate response", media_type="text/plain")
-
-#     try:
-#         response = requests.get(output)
-#         response.raise_for_status()
-#         return Response(content=response.content, media_type="image/png")
-#     except requests.exceptions.RequestException as e:
-#         return Response(content=str(e), media_type="text/plain")
-
-
 # return the base64 encoded image to be used in the client side 
-@app.get("/generate_response")
+@app.get("/")
 async def generate_response_api(prompt: str):
     output = generate_response(prompt)
     if output is None:
